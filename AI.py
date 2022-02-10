@@ -1,3 +1,5 @@
+import numbers
+from tokenize import Number
 from numpy import append
 import random
 
@@ -21,25 +23,31 @@ def inatlystruggling(dic,list): #gives the number of the question based off its 
             return x
 
 def numberofstuff():
-    for i in range (0,len(answersbank)):
+    global numbers
+    numbers=[]
+    for i in range (0,len(answersbank)): #literallynummberofstuff
         if i in answers:
             numbers.append(i)
     return numbers
+def getoutdaway(list1,list2): #removes when answers not wanted
+    zztop=returnsims(list1,list2)
+    for i in zztop:
+        list1.remove(i)
+    return list1
+
 Questionbanck=["Do you know this person personnaly?","Is this person male","Is this person in ISSH"] #questions
 Qs={}
 for i in range(0,len(Questionbanck)): 
     Qs[i]=Questionbanck[i]#questionsyettoaskdamniforgotyoucoulddospaces in coments
 
 answersbank={ #answersbabk
-    0:['step sis',"Lisa","father","Louis"],
-    1:['father',"Louis"],
+    0:["Lisa",'step sis',"Louis"],
+    1:["donald trump","Louis"],
     2:["Lisa","Louis"]
 }
 answers=answersbank.copy()
 possibleanswers=[]
-#for i in range (0,len(answers)):
-#    answers[i]=Qs[i]
-numbers=[]
+
 
 print ("Think of a person")
 while len(possibleanswers)!=1:
@@ -62,7 +70,8 @@ while len(possibleanswers)!=1:
                 possibleanswers=returnsims(possibleanswers,answers[No])
                 del answers[No]
             else:
-        
+                possibleanswers=getoutdaway(possibleanswers,answers[No])
+                del answers[No]
 
         else: 
             print(possibleanswers)
@@ -70,13 +79,19 @@ while len(possibleanswers)!=1:
         x1=input("Is it right?")
         if x1=="y":
             print("great")
+            break
         else:
             x2=input("What is it?")
             answers[0].append(x2)
             y1=input("Write a question that applies to your person")
-            Qs.append(y1)
+            Qs.append(y1)#needs revition
             print(answers[1])
             print(Qs)
     else:
+        caretaker=[]
+        caretaker.extend(answers[chosen])
+        for i in answers:
+            answers[i]=getoutdaway(answers[i],caretaker)
         del answers[chosen]
-
+else: 
+    print(possibleanswers)
